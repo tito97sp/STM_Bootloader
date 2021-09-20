@@ -1,7 +1,7 @@
 import argparse
 import binascii
 import struct
-
+import zlib
 
 def patch_binary_payload(bin_filename):
     """
@@ -31,7 +31,7 @@ def patch_binary_payload(bin_filename):
                 IMAGE_HDR_VERSION, image_hdr_version
             )
         )
-
+ 
     data_size = len(data)
     crc32 = binascii.crc32(data) & 0xffffffff
 

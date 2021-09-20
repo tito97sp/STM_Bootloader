@@ -14,7 +14,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-uint32_t crc32(const uint8_t *src, uint32_t len, uint32_t state);
-
+uint32_t crc32(const uint8_t *src, uint8_t len, uint32_t state);
 
 #endif /* INC_CRC32_H_ */

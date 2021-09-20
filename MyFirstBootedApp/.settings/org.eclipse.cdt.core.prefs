@@ -1,6 +1,6 @@
 eclipse.preferences.version=1
 environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.312740122/_IMAGE_HDR_VERSION_/delimiter=\:
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.312740122/_IMAGE_HDR_VERSION_/operation=append
+environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.312740122/_IMAGE_HDR_VERSION_/operation=replace
 environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.312740122/_IMAGE_HDR_VERSION_/value=12
 environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.312740122/append=true
 environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.312740122/appendContributed=true

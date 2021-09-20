@@ -5,7 +5,7 @@
 
 
 #define IMAGE_MAGIC 		0xcafe
-#define IMAGE_HDR_VERSION 	_IMAGE_HDR_VERSION_
+#define IMAGE_HDR_VERSION 	1
 #define COMPILATION_DATE    __DATE__
 #define COMPILATION_TIME    __TIME__
 #define IMAGE_TYPE_APP 		1

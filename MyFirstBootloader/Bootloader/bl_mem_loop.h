@@ -28,7 +28,7 @@ FRESULT fres; //Result after operations
 
 
 
-void bootloader_sd(unsigned timeout);
+void bl_fatsd(unsigned timeout);
 
 const image_hdr_t *image_get_header(const char *image_path);
 

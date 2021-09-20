@@ -1,8 +1,11 @@
 #include <bl_mem_loop.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h> //for va_list var arg functions
 
 const char image_name[] = "firmware_v1.bin";
 
-void bootloader_sd(unsigned timeout)
+void bl_fatsd(unsigned timeout)
 {
 	//bl_type = NONE; // The type of the bootloader, whether loading from USB or USART, will be determined by on what port the bootloader recevies its first valid command.
 	//volatile uint32_t  bl_state = 0; // Must see correct command sequence to erase and reboot (commit first word)
@@ -29,13 +32,56 @@ void bootloader_sd(unsigned timeout)
 
 	// open firmware binary from sd card.
 	//Open the file system
+
+	HAL_Delay(1000);
+
 	fres = f_mount(&FatFs, "", 1); //1=mount now
+	FRESULT res = fres;
 	if (fres != FR_OK)
 	{
 		printf("f_mount error \r\n");
 		return;
 	}
 
+
+	DWORD free_clusters, free_sectors, total_sectors;
+
+	FATFS* getFreeFs;
+
+	fres = f_getfree("", &free_clusters, &getFreeFs);
+	if (fres != FR_OK) {
+		//sprintf("f_getfree error (%i)\r\n", fres);
+		while(1);
+	}
+
+	//Formula comes from ChaN's documentation
+	total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
+	free_sectors = free_clusters * getFreeFs->csize;
+
+	sprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
+
+	///Now let's try to open file "test.txt"
+	fres = f_open(&fil, "test.txt", FA_READ);
+	if (fres != FR_OK) {
+		//sprintf("f_open error (%i)\r\n");
+		while(1);
+	 }
+	//sprintf("I was able to open 'test.txt' for reading!\r\n");
+
+	//Read 30 bytes from "test.txt" on the SD card
+	BYTE readBuf[30];
+
+	//We can either use f_read OR f_gets to get data out of files
+	//f_gets is a wrapper on f_read that does some string formatting for us
+	TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
+	if(rres != 0) {
+		//sprintf("Read string from 'test.txt' contents: %s\r\n", readBuf);
+	} else {
+		//sprintf("f_gets error (%i)\r\n", fres);
+	}
+
+	//Be a tidy kiwi - don't forget to close your file!
+	f_close(&fil);
 
 	//Locate and check for loadable firmware. (iterate over images to find the latest and make checks).
 	const image_hdr_t *image_hdr;

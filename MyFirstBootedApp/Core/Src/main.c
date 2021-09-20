@@ -91,7 +91,6 @@ static void MX_SPI1_Init(void);
 static void MX_USART3_UART_Init(void);
 static void MX_ETH_Init(void);
 static void MX_USB_OTG_FS_USB_Init(void);
-
 /* USER CODE BEGIN PFP */
 /* USER CODE END PFP */
 
@@ -104,10 +103,8 @@ static void MX_USB_OTG_FS_USB_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
-int main(void)
+int app_main(void)
 {
-
-
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -138,127 +135,126 @@ int main(void)
   MX_USART3_UART_Init();
   MX_ETH_Init();
   MX_USB_OTG_FS_USB_Init();
-
   /* USER CODE BEGIN 2 */
   image_hdr_t *image_hdr = (image_hdr_t *) &(__IMAGE_HDR_START__);
   uint32_t crc = image_hdr->crc;
 
 
-	// compute CRC of the programmed area
-  uint32_t sum = 0;
-
-	//pass all the flash memory addresses. //Start address is 0x08020000 (for this controller)
-	// TODO: Pass the starting flash address as parameter.
-  uint32_t flash_prog_start_add = 0x08020000 | 0x200; 		//512 is image_hdr memory space.
-
-  for (uint32_t p = 0; p < image_hdr->data_size; p += 4) {
-	  uint32_t bytes;
-
-	  uint32_t address = flash_prog_start_add + p;
-	  if(address & 3)
-	  {
-		  return 0;
-	  }
-
-//		if ((p == 0) && (first_word != 0xffffffff)) {
-//			bytes = first_word;
+//	// compute CRC of the programmed area
+//  uint32_t sum = 0;
 //
-//		} else {
-//			bytes = flash_func_read_word(p);
-//		}
-
-	  //get data from flash
-	  bytes = *(uint32_t *) address;
-
-	  sum = crc32((uint8_t *)&bytes, sizeof(bytes), sum);
-  }
-
-  if(crc != sum)
-  {
-	  printf("Error. Flash memory data corruption");
-  }
-
-
-  //myprintf("\r\n~ SD card demo by kiwih ~\r\n\r\n");
-
-  HAL_Delay(1000); //a short delay is important to let the SD card settle
-
-  //some variables for FatFs
-  FATFS FatFs; 	//Fatfs handle
-  FIL fil; 		//File handle
-  FRESULT fres; //Result after operations
-
-  //Open the file system
-  fres = f_mount(&FatFs, "", 1); //1=mount now
-  if (fres != FR_OK) {
-	printf("f_mount error (%i)\r\n", fres);
-	while(1);
-  }
-
-  //Let's get some statistics from the SD card
-  DWORD free_clusters, free_sectors, total_sectors;
-
-  FATFS* getFreeFs;
-
-  fres = f_getfree("", &free_clusters, &getFreeFs);
-  if (fres != FR_OK) {
-	printf("f_getfree error (%i)\r\n", fres);
-	while(1);
-  }
-
-  //Formula comes from ChaN's documentation
-  total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
-  free_sectors = free_clusters * getFreeFs->csize;
-
-//  myprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
-
-  //Now let's try to open file "test.txt"
-  fres = f_open(&fil, "test.txt", FA_READ);
-  if (fres != FR_OK) {
-//	printf("f_open error (%i)\r\n");
-	while(1);
-  }
-//  myprintf("I was able to open 'test.txt' for reading!\r\n");
-
-  //Read 30 bytes from "test.txt" on the SD card
-  BYTE readBuf[30];
-
-  //We can either use f_read OR f_gets to get data out of files
-  //f_gets is a wrapper on f_read that does some string formatting for us
-  TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
-  if(rres != 0) {
-//	myprintf("Read string from 'test.txt' contents: %s\r\n", readBuf);
-  } else {
-//	myprintf("f_gets error (%i)\r\n", fres);
-  }
-
-  //Be a tidy kiwi - don't forget to close your file!
-  f_close(&fil);
-
-  //Now let's try and write a file "write.txt"
-  fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
-  if(fres == FR_OK) {
-	printf("I was able to open 'write.txt' for writing\r\n");
-  } else {
-	printf("f_open error (%i)\r\n", fres);
-  }
-
-  //Copy in a string
-  char message[] = "a new file is made!";
-  strncpy((char*)readBuf, message, strlen(message));
-  UINT bytesWrote;
-  fres = f_write(&fil, readBuf, 19, &bytesWrote);
-  if(fres == FR_OK) {
-	printf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
-  } else {
-//	printf("f_write error (%i)\r\n");
-  }
-
-  //Be a tidy kiwi - don't forget to close your file!
-  f_close(&fil);
-
-  //We're done, so de-mount the drive
-  f_mount(NULL, "", 0);
+//	//pass all the flash memory addresses. //Start address is 0x08020000 (for this controller)
+//	// TODO: Pass the starting flash address as parameter.
+//  uint32_t flash_prog_start_add = 0x08020000 | 0x200; 		//512 is image_hdr memory space.
+//
+//  for (uint32_t p = 0; p < image_hdr->data_size; p += 4) {
+//	  uint32_t bytes;
+//
+//	  uint32_t address = flash_prog_start_add + p;
+//	  if(address & 3)
+//	  {
+//		  return 0;
+//	  }
+//
+////		if ((p == 0) && (first_word != 0xffffffff)) {
+////			bytes = first_word;
+////
+////		} else {
+////			bytes = flash_func_read_word(p);
+////		}
+//
+//	  //get data from flash
+//	  bytes = *(uint32_t *) address;
+//
+//	  sum = crc32((uint8_t *)&bytes, sizeof(bytes), sum);
+//  }
+//
+//  if(crc != sum)
+//  {
+//	  printf("Error. Flash memory data corruption");
+//  }
+//
+//
+//  //myprintf("\r\n~ SD card demo by kiwih ~\r\n\r\n");
+//
+//  HAL_Delay(1000); //a short delay is important to let the SD card settle
+//
+//  //some variables for FatFs
+//  FATFS FatFs; 	//Fatfs handle
+//  FIL fil; 		//File handle
+//  FRESULT fres; //Result after operations
+//
+//  //Open the file system
+//  fres = f_mount(&FatFs, "", 1); //1=mount now
+//  if (fres != FR_OK) {
+//	printf("f_mount error (%i)\r\n", fres);
+//	while(1);
+//  }
+//
+//  //Let's get some statistics from the SD card
+//  DWORD free_clusters, free_sectors, total_sectors;
+//
+//  FATFS* getFreeFs;
+//
+//  fres = f_getfree("", &free_clusters, &getFreeFs);
+//  if (fres != FR_OK) {
+//	printf("f_getfree error (%i)\r\n", fres);
+//	while(1);
+//  }
+//
+//  //Formula comes from ChaN's documentation
+//  total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
+//  free_sectors = free_clusters * getFreeFs->csize;
+//
+////  myprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
+//
+//  //Now let's try to open file "test.txt"
+//  fres = f_open(&fil, "test.txt", FA_READ);
+//  if (fres != FR_OK) {
+////	printf("f_open error (%i)\r\n");
+//	while(1);
+//  }
+////  myprintf("I was able to open 'test.txt' for reading!\r\n");
+//
+//  //Read 30 bytes from "test.txt" on the SD card
+//  BYTE readBuf[30];
+//
+//  //We can either use f_read OR f_gets to get data out of files
+//  //f_gets is a wrapper on f_read that does some string formatting for us
+//  TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
+//  if(rres != 0) {
+////	myprintf("Read string from 'test.txt' contents: %s\r\n", readBuf);
+//  } else {
+////	myprintf("f_gets error (%i)\r\n", fres);
+//  }
+//
+//  //Be a tidy kiwi - don't forget to close your file!
+//  f_close(&fil);
+//
+//  //Now let's try and write a file "write.txt"
+//  fres = f_open(&fil, "write.txt", FA_WRITE | FA_OPEN_ALWAYS | FA_CREATE_ALWAYS);
+//  if(fres == FR_OK) {
+//	printf("I was able to open 'write.txt' for writing\r\n");
+//  } else {
+//	printf("f_open error (%i)\r\n", fres);
+//  }
+//
+//  //Copy in a string
+//  char message[] = "a new file is made!";
+//  strncpy((char*)readBuf, message, strlen(message));
+//  UINT bytesWrote;
+//  fres = f_write(&fil, readBuf, 19, &bytesWrote);
+//  if(fres == FR_OK) {
+//	printf("Wrote %i bytes to 'write.txt'!\r\n", bytesWrote);
+//  } else {
+////	printf("f_write error (%i)\r\n");
+//  }
+//
+//  //Be a tidy kiwi - don't forget to close your file!
+//  f_close(&fil);
+//
+//  //We're done, so de-mount the drive
+//  f_mount(NULL, "", 0);
 
   /* USER CODE END 2 */
 
@@ -270,7 +266,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
       //Blink the LED every second
-	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);		//Blue LED
+	  HAL_GPIO_TogglePin(LD3_GPIO_Port, LD3_Pin);
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
