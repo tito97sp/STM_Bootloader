@@ -327,20 +327,26 @@ inline DSTATUS USER_SPI_initialize (
 	if (drv != 0) return STA_NOINIT;		/* Supports only drive 0 */
 	//assume SPI already init init_spi();	/* Initialize SPI */
 
-	if (Stat & STA_NODISK) return Stat;	/* Is card existing in the soket? */
+	if (Stat & STA_NODISK) return Stat;	/* Is card existing in the socket? */
 
 	FCLK_SLOW();
 	for (n = 10; n; n--) xchg_spi(0xFF);	/* Send 80 dummy clocks */
 
 	ty = 0;
 	if (send_cmd(CMD0, 0) == 1) {			/* Put the card SPI/Idle state */
-		SPI_Timer_On(1000);					/* Initialization timeout = 1 sec */
+		SPI_Timer_On(2000);					/* Initialization timeout = 1 sec */
 		if (send_cmd(CMD8, 0x1AA) == 1) {	/* SDv2? */
-			for (n = 0; n < 4; n++) ocr[n] = xchg_spi(0xFF);	/* Get 32 bit return value of R7 resp */
-			if (ocr[2] == 0x01 && ocr[3] == 0xAA) {				/* Is the card supports vcc of 2.7-3.6V? */
+			for (n = 0; n < 4; n++) {
+				ocr[n] = xchg_spi(0xFF);	/* Get 32 bit return value of R7 resp */
+			}
+			if (ocr[2] == 0x01 && ocr[3] == 0xAA) /* Is the card supports vcc of 2.7-3.6V? */
+			{
 				while (SPI_Timer_Status() && send_cmd(ACMD41, 1UL << 30)) ;	/* Wait for end of initialization with ACMD41(HCS) */
 				if (SPI_Timer_Status() && send_cmd(CMD58, 0) == 0) {		/* Check CCS bit in the OCR */
-					for (n = 0; n < 4; n++) ocr[n] = xchg_spi(0xFF);
+					for (n = 0; n < 4; n++)
+					{
+						ocr[n] = xchg_spi(0xFF);
+					}
 					ty = (ocr[0] & 0x40) ? CT_SD2 | CT_BLOCK : CT_SD2;	/* Card id SDv2 */
 				}
 			}
@@ -489,6 +495,11 @@ inline DRESULT USER_SPI_ioctl (
 	case CTRL_SYNC :		/* Wait for end of internal write process of the drive */
 		if (spiselect()) res = RES_OK;
 		break;
+
+	case GET_SECTOR_SIZE :
+
+		break;
+
 
 	case GET_SECTOR_COUNT :	/* Get drive capacity in unit of sector (DWORD) */
 		if ((send_cmd(CMD9, 0) == 0) && rcvr_datablock(csd, 16)) {

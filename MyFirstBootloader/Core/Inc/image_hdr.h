@@ -11,6 +11,15 @@
 #define IMAGE_TYPE_APP 		1
 #define GIT_SHA				"undef"
 
+typedef enum
+{
+	IMA_OK = 0,
+	IMA_ERROR = 1,
+	IMA_NOT_FOUND = 2,
+	IMA_INVALID = 3
+} IMAGE_STATUS;
+
+
 typedef struct __attribute__((packed)){
 	uint16_t image_magic;
 	uint16_t image_hdr_version;

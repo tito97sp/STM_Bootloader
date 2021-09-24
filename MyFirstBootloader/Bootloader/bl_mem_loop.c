@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h> //for va_list var arg functions
-
+#include <crc32.h>
 const char image_name[] = "firmware_v1.bin";
 
 void bl_fatsd(unsigned timeout)
@@ -36,7 +36,6 @@ void bl_fatsd(unsigned timeout)
 	HAL_Delay(1000);
 
 	fres = f_mount(&FatFs, "", 1); //1=mount now
-	FRESULT res = fres;
 	if (fres != FR_OK)
 	{
 		printf("f_mount error \r\n");
@@ -44,63 +43,62 @@ void bl_fatsd(unsigned timeout)
 	}
 
 
-	DWORD free_clusters, free_sectors, total_sectors;
+//	DWORD free_clusters, free_sectors, total_sectors;
+//	FATFS* getFreeFs;
+//
+//	fres = f_getfree("", &free_clusters, &getFreeFs);
+//	if (fres != FR_OK) {
+//		//sprintf("f_getfree error (%i)\r\n", fres);
+//		while(1);
+//	}
 
-	FATFS* getFreeFs;
+//	//Formula comes from ChaN's documentation
+//	total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
+//	free_sectors = free_clusters * getFreeFs->csize;
 
-	fres = f_getfree("", &free_clusters, &getFreeFs);
-	if (fres != FR_OK) {
-		//sprintf("f_getfree error (%i)\r\n", fres);
-		while(1);
-	}
-
-	//Formula comes from ChaN's documentation
-	total_sectors = (getFreeFs->n_fatent - 2) * getFreeFs->csize;
-	free_sectors = free_clusters * getFreeFs->csize;
-
-	sprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
+	//sprintf("SD card stats:\r\n%10lu KiB total drive space.\r\n%10lu KiB available.\r\n", total_sectors / 2, free_sectors / 2);
 
 	///Now let's try to open file "test.txt"
-	fres = f_open(&fil, "test.txt", FA_READ);
-	if (fres != FR_OK) {
-		//sprintf("f_open error (%i)\r\n");
-		while(1);
-	 }
+//	fres = f_open(&fil, "firmware_app.bin", FA_READ);
+//	if (fres != FR_OK) {
+//		//sprintf("f_open error (%i)\r\n");
+//		while(1);
+//	 }
 	//sprintf("I was able to open 'test.txt' for reading!\r\n");
 
 	//Read 30 bytes from "test.txt" on the SD card
-	BYTE readBuf[30];
+	//uint32_t readBuf[512/4];
 
 	//We can either use f_read OR f_gets to get data out of files
 	//f_gets is a wrapper on f_read that does some string formatting for us
-	TCHAR* rres = f_gets((TCHAR*)readBuf, 30, &fil);
-	if(rres != 0) {
-		//sprintf("Read string from 'test.txt' contents: %s\r\n", readBuf);
-	} else {
-		//sprintf("f_gets error (%i)\r\n", fres);
-	}
+//	TCHAR* rres = f_gets((TCHAR*)readBuf, sizeof(readBuf), &fil);
+//	if(rres != 0) {
+//		//sprintf("Read string from 'test.txt' contents: %s\r\n", readBuf);
+//	} else {
+//		//sprintf("f_gets error (%i)\r\n", fres);
+//	}
 
 	//Be a tidy kiwi - don't forget to close your file!
-	f_close(&fil);
+//	f_close(&fil);
+
+
 
 	//Locate and check for loadable firmware. (iterate over images to find the latest and make checks).
 	const image_hdr_t *image_hdr;
-	image_hdr = image_get_header(image_name);
-	uint8_t err = image_validate(image_hdr);
-	if(err != 0)
+
+	//iterate over files.
+	IMAGE_STATUS ires;
+	ires = image_check(image_name, image_hdr);
+	if(ires != IMA_OK)
 	{
 		return;
 	}
+
 	printf("New valid image found in SD. Uploading firmware...\r\n");
 
 
-	//Open new firmware to load.
-	fres = f_open(&fil, image_name, FA_READ);
-	if (fres != FR_OK)
-	{
-		printf("f_open error \r\n");
-		return;
-	}
+
+
 	printf("Uploading image");
 
 
@@ -262,37 +260,95 @@ void bl_fatsd(unsigned timeout)
 
 }
 
-const image_hdr_t *image_get_header(const char *image_path)
-{
-	//open the file.
 
+
+IMAGE_STATUS image_check(const char *image_path,  image_hdr_t *image_hdr_ptr)
+{
 	//read image_hdr_t
 	uint8_t readBytes = 0;
 	uint8_t ima_hdr_buff[sizeof(image_hdr_t)];
 
-	// read maximum number of bytes from file.
-	FRESULT rres = f_read(&fil, &ima_hdr_buff, sizeof(image_hdr_t), (UINT*)&readBytes);
-	if(rres != FR_OK) {
-		printf("Error.");
+	IMAGE_STATUS istat = IMA_OK;
+	FRESULT fres;
+
+	//open the file.
+	fres = f_open(&fil, "firmware_app.bin", FA_READ);
+	if (fres != FR_OK) {
+		istat =  IMA_NOT_FOUND;
 	}
 
-	// check if end of file reached.
+	// read maximum number of bytes from file.
+	fres = f_read(&fil, &ima_hdr_buff, sizeof(image_hdr_t), (UINT*)&readBytes);
+	if(fres != FR_OK) {
+		istat = IMA_ERROR;
+	}
+
+	// EOF reached?
 	if(sizeof(image_hdr_t) > readBytes)
 	{
-		printf("Error.");
+		istat = IMA_ERROR;
 	}
 
-	// cast
+	// cast image_hdr
 	const image_hdr_t *hdr = NULL;
 	hdr = (const image_hdr_t *)&ima_hdr_buff[0];
 
-	return hdr;
+	// Check header.
+	if(istat == IMA_OK){
+		// perform image checks (crc, minimal version, data_size, vector_addr)
+		if (hdr && hdr->image_magic == IMAGE_MAGIC
+				&& hdr->crc != 0
+				&& hdr->data_size != 0
+				&& hdr->vector_addr != 0)
+		{
+			*image_hdr_ptr = *hdr;
+			istat = IMA_OK;
+		}
+		else
+		{
+			image_hdr_ptr = NULL;
+			istat = IMA_INVALID;
+		}
+	}
 
-	if (hdr && hdr->image_magic == IMAGE_MAGIC) {
-	        return hdr;
-	    } else {
-	        return NULL;
-	    }
+	if(istat == IMA_OK)
+	{
+		// move to vect_addr
+		uint8_t byte[512-52];
+		//uint32_t unused_hdr_length = image_hdr_ptr->vector_addr - sizeof(image_hdr_t);
+		//for (uint32_t p = 0; p < unused_hdr_length+1; p++)
+		//{
+			//uint8_t byte;
+			fres = f_read(&fil, &byte, sizeof(byte), (UINT*)&readBytes);
+		//}
+
+		// compute CRC of the programmed area
+		uint32_t sum = ~0U;
+		uint32_t app_length = image_hdr_ptr->data_size - image_hdr_ptr->vector_addr;
+		for (uint32_t p = 0; p < app_length; p += 4)
+		{
+			// get data from external
+			uint32_t bytes;
+			fres = f_read(&fil, &bytes, sizeof(bytes), (UINT*)&readBytes);
+			if(fres != FR_OK) {
+				istat = IMA_ERROR;
+			}
+
+			sum = crc32((uint8_t *)&bytes, sizeof(bytes), sum);
+		}
+		sum = sum ^ ~0U;
+
+		if(hdr->crc != sum)
+		{
+		   printf("Error. Image binary corruption");
+		   return 0;
+		}
+	}
+
+	// close file
+	f_close(&fil);
+
+	return istat;
 }
 
 int image_validate(const image_hdr_t *hdr) {

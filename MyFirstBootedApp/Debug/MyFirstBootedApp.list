@@ -37,15 +37,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  0003713e  00000000  00000000  00044cd8  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00013536  00000000  00000000  0007be16  2**0
+ 17 .debug_line   0001341c  00000000  00000000  0007be16  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00161692  00000000  00000000  0008f34c  2**0
+ 18 .debug_str    00161693  00000000  00000000  0008f232  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  001f09de  2**0
+ 19 .comment      00000053  00000000  00000000  001f08c5  2**0
                   CONTENTS, READONLY
- 20 .debug_ranges 00000dc8  00000000  00000000  001f0a38  2**3
+ 20 .debug_ranges 00000dc8  00000000  00000000  001f0918  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_frame  00003ccc  00000000  00000000  001f1800  2**2
+ 21 .debug_frame  00003ccc  00000000  00000000  001f16e0  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -85,8 +85,8 @@ Disassembly of section .text:
  80204de:	bf08      	it	eq
  80204e0:	2800      	cmpeq	r0, #0
  80204e2:	bf1c      	itt	ne
- 80204e4:	f04f 31ff 	movne.w	r1, #4294967295	; 0xffffffff
- 80204e8:	f04f 30ff 	movne.w	r0, #4294967295	; 0xffffffff
+ 80204e4:	f04f 31ff 	movne.w	r1, #4294967295
+ 80204e8:	f04f 30ff 	movne.w	r0, #4294967295
  80204ec:	f000 b96e 	b.w	80207cc <__aeabi_idiv0>
  80204f0:	f1ad 0c08 	sub.w	ip, sp, #8
  80204f4:	e96d ce04 	strd	ip, lr, [sp, #-16]!
@@ -124,7 +124,7 @@ Disassembly of section .text:
  8020550:	4299      	cmp	r1, r3
  8020552:	d909      	bls.n	8020568 <__udivmoddi4+0x60>
  8020554:	18fb      	adds	r3, r7, r3
- 8020556:	f106 30ff 	add.w	r0, r6, #4294967295	; 0xffffffff
+ 8020556:	f106 30ff 	add.w	r0, r6, #4294967295
  802055a:	f080 8119 	bcs.w	8020790 <__udivmoddi4+0x288>
  802055e:	4299      	cmp	r1, r3
  8020560:	f240 8116 	bls.w	8020790 <__udivmoddi4+0x288>
@@ -139,7 +139,7 @@ Disassembly of section .text:
  802057c:	45a6      	cmp	lr, r4
  802057e:	d909      	bls.n	8020594 <__udivmoddi4+0x8c>
  8020580:	193c      	adds	r4, r7, r4
- 8020582:	f100 33ff 	add.w	r3, r0, #4294967295	; 0xffffffff
+ 8020582:	f100 33ff 	add.w	r3, r0, #4294967295
  8020586:	f080 8105 	bcs.w	8020794 <__udivmoddi4+0x28c>
  802058a:	45a6      	cmp	lr, r4
  802058c:	f240 8102 	bls.w	8020794 <__udivmoddi4+0x28c>
@@ -171,7 +171,7 @@ Disassembly of section .text:
  80205d8:	428b      	cmp	r3, r1
  80205da:	d907      	bls.n	80205ec <__udivmoddi4+0xe4>
  80205dc:	1879      	adds	r1, r7, r1
- 80205de:	f10c 30ff 	add.w	r0, ip, #4294967295	; 0xffffffff
+ 80205de:	f10c 30ff 	add.w	r0, ip, #4294967295
  80205e2:	d202      	bcs.n	80205ea <__udivmoddi4+0xe2>
  80205e4:	428b      	cmp	r3, r1
  80205e6:	f200 80e9 	bhi.w	80207bc <__udivmoddi4+0x2b4>
@@ -185,7 +185,7 @@ Disassembly of section .text:
  8020600:	45a0      	cmp	r8, r4
  8020602:	d907      	bls.n	8020614 <__udivmoddi4+0x10c>
  8020604:	193c      	adds	r4, r7, r4
- 8020606:	f100 33ff 	add.w	r3, r0, #4294967295	; 0xffffffff
+ 8020606:	f100 33ff 	add.w	r3, r0, #4294967295
  802060a:	d202      	bcs.n	8020612 <__udivmoddi4+0x10a>
  802060c:	45a0      	cmp	r8, r4
  802060e:	f200 80d9 	bhi.w	80207c4 <__udivmoddi4+0x2bc>
@@ -234,7 +234,7 @@ Disassembly of section .text:
  802068a:	fa04 f402 	lsl.w	r4, r4, r2
  802068e:	d909      	bls.n	80206a4 <__udivmoddi4+0x19c>
  8020690:	18fb      	adds	r3, r7, r3
- 8020692:	f106 3cff 	add.w	ip, r6, #4294967295	; 0xffffffff
+ 8020692:	f106 3cff 	add.w	ip, r6, #4294967295
  8020696:	f080 808d 	bcs.w	80207b4 <__udivmoddi4+0x2ac>
  802069a:	4299      	cmp	r1, r3
  802069c:	f240 808a 	bls.w	80207b4 <__udivmoddi4+0x2ac>
@@ -249,7 +249,7 @@ Disassembly of section .text:
  80206b8:	428b      	cmp	r3, r1
  80206ba:	d907      	bls.n	80206cc <__udivmoddi4+0x1c4>
  80206bc:	1879      	adds	r1, r7, r1
- 80206be:	f100 3cff 	add.w	ip, r0, #4294967295	; 0xffffffff
+ 80206be:	f100 3cff 	add.w	ip, r0, #4294967295
  80206c2:	d273      	bcs.n	80207ac <__udivmoddi4+0x2a4>
  80206c4:	428b      	cmp	r3, r1
  80206c6:	d971      	bls.n	80207ac <__udivmoddi4+0x2a4>
@@ -278,7 +278,7 @@ Disassembly of section .text:
  8020710:	fa00 f306 	lsl.w	r3, r0, r6
  8020714:	d908      	bls.n	8020728 <__udivmoddi4+0x220>
  8020716:	1861      	adds	r1, r4, r1
- 8020718:	f109 30ff 	add.w	r0, r9, #4294967295	; 0xffffffff
+ 8020718:	f109 30ff 	add.w	r0, r9, #4294967295
  802071c:	d248      	bcs.n	80207b0 <__udivmoddi4+0x2a8>
  802071e:	458a      	cmp	sl, r1
  8020720:	d946      	bls.n	80207b0 <__udivmoddi4+0x2a8>
@@ -293,7 +293,7 @@ Disassembly of section .text:
  802073e:	45b8      	cmp	r8, r7
  8020740:	d907      	bls.n	8020752 <__udivmoddi4+0x24a>
  8020742:	19e7      	adds	r7, r4, r7
- 8020744:	f100 31ff 	add.w	r1, r0, #4294967295	; 0xffffffff
+ 8020744:	f100 31ff 	add.w	r1, r0, #4294967295
  8020748:	d22e      	bcs.n	80207a8 <__udivmoddi4+0x2a0>
  802074a:	45b8      	cmp	r8, r7
  802074c:	d92c      	bls.n	80207a8 <__udivmoddi4+0x2a0>
@@ -2350,7 +2350,7 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
     HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
  80212f8:	2200      	movs	r2, #0
  80212fa:	6879      	ldr	r1, [r7, #4]
- 80212fc:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
+ 80212fc:	f04f 30ff 	mov.w	r0, #4294967295
  8021300:	f000 f931 	bl	8021566 <HAL_NVIC_SetPriority>
     uwTickPrio = TickPriority;
  8021304:	4a06      	ldr	r2, [pc, #24]	; (8021320 <HAL_InitTick+0x68>)
@@ -2443,7 +2443,7 @@ __weak void HAL_Delay(uint32_t Delay)
   /* Add a freq to guarantee minimum wait */
   if (wait < HAL_MAX_DELAY)
  8021376:	68fb      	ldr	r3, [r7, #12]
- 8021378:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+ 8021378:	f1b3 3fff 	cmp.w	r3, #4294967295
  802137c:	d005      	beq.n	802138a <HAL_Delay+0x26>
   {
     wait += (uint32_t)(uwTickFreq);
@@ -2691,7 +2691,7 @@ __STATIC_INLINE uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t P
 
   return (
            ((PreemptPriority & (uint32_t)((1UL << (PreemptPriorityBits)) - 1UL)) << SubPriorityBits) |
- 80214d8:	f04f 32ff 	mov.w	r2, #4294967295	; 0xffffffff
+ 80214d8:	f04f 32ff 	mov.w	r2, #4294967295
  80214dc:	69bb      	ldr	r3, [r7, #24]
  80214de:	fa02 f303 	lsl.w	r3, r2, r3
  80214e2:	43da      	mvns	r2, r3
@@ -2700,7 +2700,7 @@ __STATIC_INLINE uint32_t NVIC_EncodePriority (uint32_t PriorityGroup, uint32_t P
  80214e8:	697b      	ldr	r3, [r7, #20]
  80214ea:	409a      	lsls	r2, r3
            ((SubPriority     & (uint32_t)((1UL << (SubPriorityBits    )) - 1UL)))
- 80214ec:	f04f 31ff 	mov.w	r1, #4294967295	; 0xffffffff
+ 80214ec:	f04f 31ff 	mov.w	r1, #4294967295
  80214f0:	697b      	ldr	r3, [r7, #20]
  80214f2:	fa01 f303 	lsl.w	r3, r1, r3
  80214f6:	43d9      	mvns	r1, r3
@@ -2746,7 +2746,7 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
  8021528:	6053      	str	r3, [r2, #4]
   NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Interrupt */
  802152a:	210f      	movs	r1, #15
- 802152c:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
+ 802152c:	f04f 30ff 	mov.w	r0, #4294967295
  8021530:	f7ff ff8e 	bl	8021450 <__NVIC_SetPriority>
   SysTick->VAL   = 0UL;                                             /* Load the SysTick Counter Value */
  8021534:	4b05      	ldr	r3, [pc, #20]	; (802154c <SysTick_Config+0x40>)
@@ -11951,7 +11951,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
  8024d3e:	429a      	cmp	r2, r3
  8024d40:	d803      	bhi.n	8024d4a <HAL_SPI_TransmitReceive+0x1ea>
  8024d42:	6bbb      	ldr	r3, [r7, #56]	; 0x38
- 8024d44:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+ 8024d44:	f1b3 3fff 	cmp.w	r3, #4294967295
  8024d48:	d102      	bne.n	8024d50 <HAL_SPI_TransmitReceive+0x1f0>
  8024d4a:	6bbb      	ldr	r3, [r7, #56]	; 0x38
  8024d4c:	2b00      	cmp	r3, #0
@@ -12174,7 +12174,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
  8024ea6:	429a      	cmp	r2, r3
  8024ea8:	d803      	bhi.n	8024eb2 <HAL_SPI_TransmitReceive+0x352>
  8024eaa:	6bbb      	ldr	r3, [r7, #56]	; 0x38
- 8024eac:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+ 8024eac:	f1b3 3fff 	cmp.w	r3, #4294967295
  8024eb0:	d102      	bne.n	8024eb8 <HAL_SPI_TransmitReceive+0x358>
  8024eb2:	6bbb      	ldr	r3, [r7, #56]	; 0x38
  8024eb4:	2b00      	cmp	r3, #0
@@ -12464,7 +12464,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
  8025096:	429a      	cmp	r2, r3
  8025098:	d803      	bhi.n	80250a2 <HAL_SPI_TransmitReceive+0x542>
  802509a:	6bbb      	ldr	r3, [r7, #56]	; 0x38
- 802509c:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+ 802509c:	f1b3 3fff 	cmp.w	r3, #4294967295
  80250a0:	d102      	bne.n	80250a8 <HAL_SPI_TransmitReceive+0x548>
  80250a2:	6bbb      	ldr	r3, [r7, #56]	; 0x38
  80250a4:	2b00      	cmp	r3, #0
@@ -12809,7 +12809,7 @@ static HAL_StatusTypeDef SPI_WaitOnFlagUntilTimeout(SPI_HandleTypeDef *hspi, uin
  80252ca:	429a      	cmp	r2, r3
  80252cc:	d803      	bhi.n	80252d6 <SPI_WaitOnFlagUntilTimeout+0x2a>
  80252ce:	69bb      	ldr	r3, [r7, #24]
- 80252d0:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+ 80252d0:	f1b3 3fff 	cmp.w	r3, #4294967295
  80252d4:	d102      	bne.n	80252dc <SPI_WaitOnFlagUntilTimeout+0x30>
  80252d6:	69bb      	ldr	r3, [r7, #24]
  80252d8:	2b00      	cmp	r3, #0
@@ -14570,7 +14570,7 @@ HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, uint32_
     /* Check for the Timeout */
     if (Timeout != HAL_MAX_DELAY)
  802608c:	69bb      	ldr	r3, [r7, #24]
- 802608e:	f1b3 3fff 	cmp.w	r3, #4294967295	; 0xffffffff
+ 802608e:	f1b3 3fff 	cmp.w	r3, #4294967295
  8026092:	d05e      	beq.n	8026152 <UART_WaitOnFlagUntilTimeout+0xd8>
     {
       if (((HAL_GetTick() - Tickstart) > Timeout) || (Timeout == 0U))

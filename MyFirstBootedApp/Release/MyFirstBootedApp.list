@@ -71,8 +71,8 @@ Disassembly of section .text:
  80204de:	bf08      	it	eq
  80204e0:	2800      	cmpeq	r0, #0
  80204e2:	bf1c      	itt	ne
- 80204e4:	f04f 31ff 	movne.w	r1, #4294967295	; 0xffffffff
- 80204e8:	f04f 30ff 	movne.w	r0, #4294967295	; 0xffffffff
+ 80204e4:	f04f 31ff 	movne.w	r1, #4294967295
+ 80204e8:	f04f 30ff 	movne.w	r0, #4294967295
  80204ec:	f000 b96e 	b.w	80207cc <__aeabi_idiv0>
  80204f0:	f1ad 0c08 	sub.w	ip, sp, #8
  80204f4:	e96d ce04 	strd	ip, lr, [sp, #-16]!
@@ -110,7 +110,7 @@ Disassembly of section .text:
  8020550:	4299      	cmp	r1, r3
  8020552:	d909      	bls.n	8020568 <__udivmoddi4+0x60>
  8020554:	18fb      	adds	r3, r7, r3
- 8020556:	f106 30ff 	add.w	r0, r6, #4294967295	; 0xffffffff
+ 8020556:	f106 30ff 	add.w	r0, r6, #4294967295
  802055a:	f080 8119 	bcs.w	8020790 <__udivmoddi4+0x288>
  802055e:	4299      	cmp	r1, r3
  8020560:	f240 8116 	bls.w	8020790 <__udivmoddi4+0x288>
@@ -125,7 +125,7 @@ Disassembly of section .text:
  802057c:	45a6      	cmp	lr, r4
  802057e:	d909      	bls.n	8020594 <__udivmoddi4+0x8c>
  8020580:	193c      	adds	r4, r7, r4
- 8020582:	f100 33ff 	add.w	r3, r0, #4294967295	; 0xffffffff
+ 8020582:	f100 33ff 	add.w	r3, r0, #4294967295
  8020586:	f080 8105 	bcs.w	8020794 <__udivmoddi4+0x28c>
  802058a:	45a6      	cmp	lr, r4
  802058c:	f240 8102 	bls.w	8020794 <__udivmoddi4+0x28c>
@@ -157,7 +157,7 @@ Disassembly of section .text:
  80205d8:	428b      	cmp	r3, r1
  80205da:	d907      	bls.n	80205ec <__udivmoddi4+0xe4>
  80205dc:	1879      	adds	r1, r7, r1
- 80205de:	f10c 30ff 	add.w	r0, ip, #4294967295	; 0xffffffff
+ 80205de:	f10c 30ff 	add.w	r0, ip, #4294967295
  80205e2:	d202      	bcs.n	80205ea <__udivmoddi4+0xe2>
  80205e4:	428b      	cmp	r3, r1
  80205e6:	f200 80e9 	bhi.w	80207bc <__udivmoddi4+0x2b4>
@@ -171,7 +171,7 @@ Disassembly of section .text:
  8020600:	45a0      	cmp	r8, r4
  8020602:	d907      	bls.n	8020614 <__udivmoddi4+0x10c>
  8020604:	193c      	adds	r4, r7, r4
- 8020606:	f100 33ff 	add.w	r3, r0, #4294967295	; 0xffffffff
+ 8020606:	f100 33ff 	add.w	r3, r0, #4294967295
  802060a:	d202      	bcs.n	8020612 <__udivmoddi4+0x10a>
  802060c:	45a0      	cmp	r8, r4
  802060e:	f200 80d9 	bhi.w	80207c4 <__udivmoddi4+0x2bc>
@@ -220,7 +220,7 @@ Disassembly of section .text:
  802068a:	fa04 f402 	lsl.w	r4, r4, r2
  802068e:	d909      	bls.n	80206a4 <__udivmoddi4+0x19c>
  8020690:	18fb      	adds	r3, r7, r3
- 8020692:	f106 3cff 	add.w	ip, r6, #4294967295	; 0xffffffff
+ 8020692:	f106 3cff 	add.w	ip, r6, #4294967295
  8020696:	f080 808d 	bcs.w	80207b4 <__udivmoddi4+0x2ac>
  802069a:	4299      	cmp	r1, r3
  802069c:	f240 808a 	bls.w	80207b4 <__udivmoddi4+0x2ac>
@@ -235,7 +235,7 @@ Disassembly of section .text:
  80206b8:	428b      	cmp	r3, r1
  80206ba:	d907      	bls.n	80206cc <__udivmoddi4+0x1c4>
  80206bc:	1879      	adds	r1, r7, r1
- 80206be:	f100 3cff 	add.w	ip, r0, #4294967295	; 0xffffffff
+ 80206be:	f100 3cff 	add.w	ip, r0, #4294967295
  80206c2:	d273      	bcs.n	80207ac <__udivmoddi4+0x2a4>
  80206c4:	428b      	cmp	r3, r1
  80206c6:	d971      	bls.n	80207ac <__udivmoddi4+0x2a4>
@@ -264,7 +264,7 @@ Disassembly of section .text:
  8020710:	fa00 f306 	lsl.w	r3, r0, r6
  8020714:	d908      	bls.n	8020728 <__udivmoddi4+0x220>
  8020716:	1861      	adds	r1, r4, r1
- 8020718:	f109 30ff 	add.w	r0, r9, #4294967295	; 0xffffffff
+ 8020718:	f109 30ff 	add.w	r0, r9, #4294967295
  802071c:	d248      	bcs.n	80207b0 <__udivmoddi4+0x2a8>
  802071e:	458a      	cmp	sl, r1
  8020720:	d946      	bls.n	80207b0 <__udivmoddi4+0x2a8>
@@ -279,7 +279,7 @@ Disassembly of section .text:
  802073e:	45b8      	cmp	r8, r7
  8020740:	d907      	bls.n	8020752 <__udivmoddi4+0x24a>
  8020742:	19e7      	adds	r7, r4, r7
- 8020744:	f100 31ff 	add.w	r1, r0, #4294967295	; 0xffffffff
+ 8020744:	f100 31ff 	add.w	r1, r0, #4294967295
  8020748:	d22e      	bcs.n	80207a8 <__udivmoddi4+0x2a0>
  802074a:	45b8      	cmp	r8, r7
  802074c:	d92c      	bls.n	80207a8 <__udivmoddi4+0x2a0>
@@ -1055,7 +1055,7 @@ Disassembly of section .text:
  8020f2a:	d8ee      	bhi.n	8020f0a <HAL_InitTick+0xa>
  8020f2c:	4602      	mov	r2, r0
  8020f2e:	4629      	mov	r1, r5
- 8020f30:	f04f 30ff 	mov.w	r0, #4294967295	; 0xffffffff
+ 8020f30:	f04f 30ff 	mov.w	r0, #4294967295
  8020f34:	f000 f87e 	bl	8021034 <HAL_NVIC_SetPriority>
  8020f38:	4b03      	ldr	r3, [pc, #12]	; (8020f48 <HAL_InitTick+0x48>)
  8020f3a:	4620      	mov	r0, r4
@@ -1179,7 +1179,7 @@ Disassembly of section .text:
  8021046:	bf28      	it	cs
  8021048:	2504      	movcs	r5, #4
  802104a:	2b06      	cmp	r3, #6
- 802104c:	f04f 33ff 	mov.w	r3, #4294967295	; 0xffffffff
+ 802104c:	f04f 33ff 	mov.w	r3, #4294967295
  8021050:	bf8c      	ite	hi
  8021052:	3c03      	subhi	r4, #3
  8021054:	2400      	movls	r4, #0
@@ -1687,7 +1687,7 @@ Disassembly of section .text:
  80215c0:	2503      	movs	r5, #3
  80215c2:	f024 0a10 	bic.w	sl, r4, #16
  80215c6:	fa05 f50e 	lsl.w	r5, r5, lr
- 80215ca:	f10a 36ff 	add.w	r6, sl, #4294967295	; 0xffffffff
+ 80215ca:	f10a 36ff 	add.w	r6, sl, #4294967295
  80215ce:	43ed      	mvns	r5, r5
  80215d0:	2e01      	cmp	r6, #1
  80215d2:	d810      	bhi.n	80215f6 <HAL_GPIO_Init+0x66>
@@ -5139,7 +5139,7 @@ Disassembly of section .text:
  802395a:	d001      	beq.n	8023960 <UART_WaitOnFlagUntilTimeout+0x26>
  802395c:	2000      	movs	r0, #0
  802395e:	e01c      	b.n	802399a <UART_WaitOnFlagUntilTimeout+0x60>
- 8023960:	f1b8 3fff 	cmp.w	r8, #4294967295	; 0xffffffff
+ 8023960:	f1b8 3fff 	cmp.w	r8, #4294967295
  8023964:	d0f2      	beq.n	802394c <UART_WaitOnFlagUntilTimeout+0x12>
  8023966:	f7fd fb2b 	bl	8020fc0 <HAL_GetTick>
  802396a:	1bc0      	subs	r0, r0, r7

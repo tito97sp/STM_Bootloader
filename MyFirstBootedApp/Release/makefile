@@ -65,8 +65,8 @@ all: main-build
 main-build: MyFirstBootedApp.elf secondary-outputs
 
 # Tool invocations
-MyFirstBootedApp.elf: $(OBJS) $(USER_OBJS) /home/asanchez/STM32CubeIDE/workspace_1.6.1/MyFirstBootedApp/STM32H743ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "MyFirstBootedApp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/home/asanchez/STM32CubeIDE/workspace_1.6.1/MyFirstBootedApp/STM32H743ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MyFirstBootedApp.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+MyFirstBootedApp.elf: $(OBJS) $(USER_OBJS) C:\Users\asanchez\Desktop\GIT\STM_Bootloader\MyFirstBootedApp\STM32H743ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "MyFirstBootedApp.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\asanchez\Desktop\GIT\STM_Bootloader\MyFirstBootedApp\STM32H743ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="MyFirstBootedApp.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

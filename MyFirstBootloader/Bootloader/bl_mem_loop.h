@@ -30,7 +30,7 @@ FRESULT fres; //Result after operations
 
 void bl_fatsd(unsigned timeout);
 
-const image_hdr_t *image_get_header(const char *image_path);
+BYTE image_check(const char *image_path, image_hdr_t *image_hdr_ptr);
 
 
 int image_validate(const image_hdr_t *hdr);
